@@ -38,8 +38,9 @@ def upload():
         upload_type = request.form.get('type')
         path = request.form.get('path')
         if upload_type == 'text':
-            data_box.chat.new(
-                user_id, request.form.get('text').replace('\r\n', '\n'))
+            text = request.form.get('text')
+            text = text.replace('\r\n', '\n')
+            data_box.chat.new(user_id, text)
         return redirect(path)
     return redirect('/')
 

@@ -89,3 +89,16 @@
 .index-main .upload-panel .select-btn-text:hover {
     background-color: rgb(20, 134, 245);
 }
+
+.cover .panel .upload-text {
+    position: relative;
+    width: calc(100% - 20px);
+    height: calc(100% - 20px);
+    padding: 10px;
+    border-radius: inherit;
+    resize: none;
+}
+
+.cover .panel .upload-text:focus {
+    outline: none;
+}
