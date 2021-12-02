@@ -1,0 +1,91 @@
+.nv-bar {
+    width: 100vw;
+    height: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.nv-bar-laptop {
+    height: 50px;
+}
+
+.nv-bar:hover {
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.nv-bar img {
+    width: 80px;
+    height: 80px;
+    position: absolute;
+    right: 1vw;
+    top: 10px;
+    background-color: lightgray;
+    border-radius: 5px;
+}
+
+.nv-bar-laptop img {
+    width: 40px;
+    height: 40px;
+    top: 5px;
+}
+
+.index-main {
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: calc(100vh - 100px);
+    width: 100vw;
+}
+
+.laptop-mode {
+    height: calc(100vh - 50px);
+}
+
+.index-main .upload-panel {
+    width: inherit;
+    height: inherit;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    text-align: center;
+}
+
+.laptop-mode .upload-panel {
+    width: calc(100% * 0.7);
+    border-left: 1px solid black;
+}
+
+.index-main .upload-panel .select-btn {
+    width: 50%;
+    height: 100px;
+    display: block;
+    margin: auto;
+    margin-top: 100px;
+    color: white;
+    border-radius: 15px;
+    background-color: rgb(134, 228, 134);
+    font-size: xx-large;
+    line-height: 100px;
+}
+
+.index-main .upload-panel .select-btn:hover {
+    cursor: pointer;
+    background-color: rgb(124, 218, 124);
+}
+
+.index-main .upload-panel .select-btn-text {
+    background-color: rgb(30, 144, 255);
+    margin-top: calc( (100vh - 500px) / 2 );
+}
+
+.laptop-mode .upload-panel .select-btn-text {
+    margin-top: calc( (100vh - 450px) / 2 );
+}
+
+.index-main .upload-panel .select-btn-text:hover {
+    background-color: rgb(20, 134, 245);
+}

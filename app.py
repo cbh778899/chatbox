@@ -4,7 +4,7 @@ from modules.dataBox import dataBox
 
 mode = None
 user_id = None
-dataBox = dataBox()
+data_box = dataBox()
 
 app = Flask(__name__)
 
@@ -24,7 +24,23 @@ def root():
 @app.route('/home')
 def home():
     if mode and user_id:
-        return mode + ' ' + user_id
+        history = 'null'
+        if mode == 'Laptop':
+            history = str(data_box.getAllHistory())
+        return render_template('index.html',
+            user_id = user_id, display_mode = mode,
+            history = history)
+    return redirect('/')
+
+@app.route('/upload', methods=['GET', 'POST'])
+def upload():
+    if request.method == 'POST':
+        upload_type = request.form.get('type')
+        path = request.form.get('path')
+        if upload_type == 'text':
+            data_box.chat.new(
+                user_id, request.form.get('text').replace('\r\n', '\n'))
+        return redirect(path)
     return redirect('/')
 
 if __name__ == "__main__":

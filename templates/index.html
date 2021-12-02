@@ -3,14 +3,28 @@
 <html>
     <head>
         <title>chatbox</title>
-        <link rel='stylesheet' type='text/css' href="{{ url_for('static', filename='/css/common.css') }}">
-        <link rel='stylesheet' type='text/css' href="{{ url_for('static', filename='/css/index.css') }}">
+        <meta charset="UTF-8">
+        <link rel='stylesheet' type='text/css' href="{{ url_for('static', filename='css/common.css') }}">
+        <link rel='stylesheet' type='text/css' href="{{ url_for('static', filename='css/index.css') }}">
         <script>
             const user_id = "{{ user_id }}";
             const display_mode = "{{ display_mode }}";
+            const history = {{ history | safe }};
         </script>
-        <script src="{{ url_for('static', filename='/js/index.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/index.js') }}"></script>
     </head>
     <body>
+        <div class="nv-bar" id='nv-bar'>
+            <img src="{{ url_for('static', filename='pic/list.svg') }}">
+        </div>
+        <div class="index-main" id='index-main'>
+            <div class="upload-panel">
+                <div class="select-btn select-btn-text" onclick="upload(0)">
+                    点击此处上传文字
+                </div>
+                <div class="select-btn" onclick="upload(1)">
+                    点击此处上传文件
+            </div>
+        </div>
     </body>
 </html>
