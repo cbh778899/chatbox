@@ -102,3 +102,36 @@
 .cover .panel .upload-text:focus {
     outline: none;
 }
+
+.cover .panel .upload-file {
+    position: relative;
+    width: calc(100% - 100px);
+    height: calc(100% - 100px);
+    border-radius: inherit;
+    text-align: left;
+    padding: 50px;
+}
+
+.cover .panel .upload-file:hover {
+    background-color: rgb(245, 245, 245);
+}
+
+.cover .panel .upload-file input[type='file'] {
+    opacity: 0;
+    position: absolute;
+    z-index: 3;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+}
+
+.cover .panel .upload-file input[type='file']:hover {
+    cursor: pointer;
+}
+
+.cover .panel .upload-file .file-info {
+    font-size: xx-large;
+    white-space: pre-line;
+    z-index: 2;
+}

@@ -32,11 +32,12 @@ class chat:
         close(conn, cursor, True)
 
 class files:
-    def __init__(self, path):
-        self.path = path
+    def __init__(self, data_path, db_path):
+        self.__data_path = data_path
+        self.__db_path = db_path
     
     def getAllFiles(self):
-        conn = sqlite3.connect(self.path)
+        conn = sqlite3.connect(self.__db_path)
         cursor = conn.cursor()
         files_list = cursor.execute('select * from files;').fetchall()
         close(conn, cursor)
@@ -44,12 +45,14 @@ class files:
 
     def new(self, user, f):
         filename = f.filename
-        conn = sqlite3.connect(self.path)
+        conn = sqlite3.connect(self.__db_path)
         cursor = conn.cursor()
         cursor.execute(
             'insert into files(time, uploader, name) values (?, ?, ?)',
             [str(datetime.now()), str(user), str(filename)])
-        f.save(cursor.lastrowid + '_' + filename)
+
+        f.save(os.path.join(self.__data_path, 
+            str(cursor.lastrowid) + '_' + filename))
         close(conn, cursor, True)
 
 class dataBox:
@@ -64,7 +67,7 @@ class dataBox:
         self.__initDB()
 
         self.chat = chat(self.__DB_PATH)
-        self.files = files(self.__DB_PATH)
+        self.files = files(self.__DATA_BASIC_PATH, self.__DB_PATH)
 
     def __initDB(self):
         if not os.path.isdir(self.__DATA_BASIC_PATH):

@@ -41,6 +41,10 @@ def upload():
             text = request.form.get('text')
             text = text.replace('\r\n', '\n')
             data_box.chat.new(user_id, text)
+        elif upload_type == 'file':
+            files = request.files.getlist('file')
+            for f in files:
+                data_box.files.new(user_id, f)
         return redirect(path)
     return redirect('/')
 
