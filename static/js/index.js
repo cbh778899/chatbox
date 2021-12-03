@@ -1,20 +1,36 @@
+const apostrophe = '@@replacedapostrophe@@'
+
 window.onload = () => {
     if(display_mode === 'Laptop') {
         document.getElementById('nv-bar').classList.add('nv-bar-laptop');
-        // if(history.length)
-        //     document.getElementById('index-main').classList.add('laptop-mode');
         setHistoryGetter();
     }
 }
 
-var history = [];
+var upload_history = null;
 
 function setHistoryGetter() {
     function updatePage() {
         const index_main = document.getElementById('index-main');
-        if(history.length && !index_main.classList.contains('laptop-mode'))
-            index_main.classList.add('laptop-mode');
-        
+        if(!index_main.classList.contains('laptop-mode')) {
+            if(upload_history.length)
+                index_main.classList.add('laptop-mode');
+        } else {
+            const show_history = document.getElementById('show-history');
+            index_main.removeChild(show_history);
+            if(!upload_history.length) {
+                index_main.classList.remove('laptop-mode');
+                return;
+            }
+        }
+
+        index_main.insertAdjacentHTML("afterbegin", `
+        <div class='show-history' id='show-history'>
+            ${upload_history.map(e => formatPost(e)).join('')}
+        </div>
+        `);
+
+        console.log(index_main.outerHTML)
     }
 
     function getHistory() {
@@ -23,10 +39,11 @@ function setHistoryGetter() {
         http_request.onreadystatechange = () =>{
             if(http_request.readyState === 4 && http_request.status === 200) {
                 res = JSON.parse(http_request.responseText);
-                if(history.toString() !== res.data.toString()) {
-                    history = res.data;
-                    updatePage();
-                }
+                if(upload_history && upload_history.length && res.data.length &&
+                    upload_history[0][0] === res.data[0][0])
+                    return;
+                upload_history = res.data;
+                updatePage();
             }
         };
         http_request.send();
@@ -34,7 +51,51 @@ function setHistoryGetter() {
 
     getHistory();
     // get history every minute
-    setTimeout(getHistory, 60000);
+    setInterval(getHistory, 60000);
+}
+
+function copy(text) {
+    text = text.replace(new RegExp(apostrophe, "g"), '\'');
+    navigator.clipboard.writeText(text).then(
+        ()=>alert(1), err=>alert(err)
+    )
+}
+
+function formatPost(post) {
+    var main_str = "";
+    if(post[4] === 'file') {
+        if(post[3].match(/(.png|.jpg|.jpeg|.gif)$/i))
+            main_str = `<img src='/file/${post[0]}_${post[3]}'>`;
+        else
+            main_str = `文件 ${post[3]}`;
+    } else if(post[4] === 'chat') {
+        const content = post[3]
+        const urls = content.match(
+            /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g);
+
+        var current_pos = 0;
+        if(urls) {
+            urls.forEach(e => {
+                const index = content.indexOf(e);
+                main_str += content.substring(current_pos, index);
+                main_str += `<a href='${e}' target='_blank'>${e}</a>`;
+                current_pos += index + e.length;
+            })
+        }
+
+        if(current_pos !== content.length - 1)
+            main_str += content.substring(current_pos)
+    }
+
+    return (
+    `<form class='post-info'
+        >用户${post[2]}\n于${new Date(post[1]).toLocaleString()}发表：
+        <span>${main_str}</span>
+        ${post[4] === 'file' ? 
+        `<a href='/file/${post[0]}_${post[3]}'
+            download='${post[3]}' class='op'>下载</a>` :
+        `<span class='op' onclick="copy('${post[3].replace(/'/g, apostrophe)}')">复制</span>`}
+    </form>`)
 }
 
 

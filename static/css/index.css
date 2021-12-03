@@ -90,6 +90,52 @@
     background-color: rgb(20, 134, 245);
 }
 
+/* this will only display when laptop mode */
+.index-main .show-history {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: calc(100% - 40px);
+    width: calc((100% * 0.2) - 40px);
+    text-align: left;
+    padding: 20px;
+    display: block;
+    overflow-y: auto;
+}
+
+.index-main .show-history .post-info {
+    white-space: pre-line;
+    display: block;
+    font-size: small;
+    /* border: 1px solid black; */
+    border-bottom: 1px dashed black;
+    margin-bottom: 20px;
+}
+
+.index-main .show-history .post-info span {
+    font-size: medium;
+    display: block;
+    margin-top: 10px;
+}
+
+.index-main .show-history .post-info img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.index-main .show-history .post-info .op {
+    font-size: small;
+    color: dodgerblue;
+    text-decoration: none;
+    margin-bottom: 5px;
+    margin-top: unset;
+    display: inline-block;
+}
+
+.index-main .show-history .post-info .op:hover {
+    cursor: pointer;
+}
+
 .cover .panel .upload-text {
     position: relative;
     width: calc(100% - 20px);

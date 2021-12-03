@@ -9,9 +9,6 @@ def close(conn, cursor, commit = False):
     cursor.close()
     conn.close()
 
-def tupleToList(tu):
-    return list(tu)
-
 class chat:
     def __init__(self, path):
         self.path = path
@@ -21,7 +18,10 @@ class chat:
         cursor = conn.cursor()
         chat_history = cursor.execute('select * from chat;').fetchall()
         close(conn, cursor)
-        return map(tupleToList, chat_history)
+        for i in range(len(chat_history)):
+            chat_history[i] = list(chat_history[i])
+            chat_history[i].append('chat')
+        return chat_history
     
     def new(self, user, content):
         conn = sqlite3.connect(self.path)
@@ -41,7 +41,16 @@ class files:
         cursor = conn.cursor()
         files_list = cursor.execute('select * from files;').fetchall()
         close(conn, cursor)
-        return map(tupleToList, files_list)
+        for i in range(len(files_list)):
+            files_list[i] = list(files_list[i])
+            files_list[i].append('file')
+        return files_list
+
+    def getFilePath(self):
+        return os.path.join(
+            os.getcwd(),
+            self.__data_path.replace('./', '')
+        )
 
     def new(self, user, f):
         filename = f.filename
@@ -95,4 +104,8 @@ class dataBox:
         
         if history:
             history.sort(key=get_time, reverse=True)
+
+        if len(history) > 9:
+            history = history[0:9]
+
         return history

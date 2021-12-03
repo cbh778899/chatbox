@@ -51,5 +51,12 @@ def getHistory():
             jsonify({'data': data_box.getAllHistory()}), 200)
     return None
 
+@app.route('/file/<filename>', methods=['GET'])
+def file(filename):
+    file_path = data_box.files.getFilePath()
+    response = make_response(send_from_directory(file_path, filename, as_attachment=True))
+    response.headers["Content-Disposition"] = "attachment; filename={}".format(filename.encode().decode('utf-8'))
+    return send_from_directory(file_path, filename, as_attachment=True)
+
 if __name__ == "__main__":
     app.run(port=8080, debug=True)
