@@ -55,7 +55,7 @@
 }
 
 .laptop-mode .upload-panel {
-    width: calc(100% * 0.7);
+    width: calc(100% * 0.8);
     border-left: 1px solid black;
 }
 

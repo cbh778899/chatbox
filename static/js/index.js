@@ -1,10 +1,42 @@
 window.onload = () => {
     if(display_mode === 'Laptop') {
         document.getElementById('nv-bar').classList.add('nv-bar-laptop');
-        if(history.length)
-            document.getElementById('index-main').classList.add('laptop-mode');
+        // if(history.length)
+        //     document.getElementById('index-main').classList.add('laptop-mode');
+        setHistoryGetter();
     }
 }
+
+var history = [];
+
+function setHistoryGetter() {
+    function updatePage() {
+        const index_main = document.getElementById('index-main');
+        if(history.length && !index_main.classList.contains('laptop-mode'))
+            index_main.classList.add('laptop-mode');
+        
+    }
+
+    function getHistory() {
+        const http_request = new XMLHttpRequest();
+        http_request.open('GET', '/history', true);
+        http_request.onreadystatechange = () =>{
+            if(http_request.readyState === 4 && http_request.status === 200) {
+                res = JSON.parse(http_request.responseText);
+                if(history.toString() !== res.data.toString()) {
+                    history = res.data;
+                    updatePage();
+                }
+            }
+        };
+        http_request.send();
+    }
+
+    getHistory();
+    // get history every minute
+    setTimeout(getHistory, 60000);
+}
+
 
 function getSelectedFiles(event) {
     const files = event.target.files;

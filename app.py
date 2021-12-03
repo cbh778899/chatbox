@@ -24,12 +24,8 @@ def root():
 @app.route('/home')
 def home():
     if mode and user_id:
-        history = 'null'
-        if mode == 'Laptop':
-            history = str(data_box.getAllHistory())
         return render_template('index.html',
-            user_id = user_id, display_mode = mode,
-            history = history)
+            user_id = user_id, display_mode = mode)
     return redirect('/')
 
 @app.route('/upload', methods=['GET', 'POST'])
@@ -47,6 +43,13 @@ def upload():
                 data_box.files.new(user_id, f)
         return redirect(path)
     return redirect('/')
+
+@app.route('/history', methods=['GET'])
+def getHistory():
+    if request.method == 'GET':
+        return make_response(
+            jsonify({'data': data_box.getAllHistory()}), 200)
+    return None
 
 if __name__ == "__main__":
     app.run(port=8080, debug=True)
