@@ -3,34 +3,36 @@ const apostrophe = '@@replacedapostrophe@@'
 window.onload = () => {
     if(display_mode === 'Laptop') {
         document.getElementById('nv-bar').classList.add('nv-bar-laptop');
+        document.getElementById('index-main').classList.add('laptop-mode');
         setHistoryGetter();
     }
 }
 
-var upload_history = null;
+var upload_history_old = [];
 
 function setHistoryGetter() {
-    function updatePage() {
+    function updatePage(upload_history) {
         const index_main = document.getElementById('index-main');
-        if(!index_main.classList.contains('laptop-mode')) {
-            if(upload_history.length)
-                index_main.classList.add('laptop-mode');
-        } else {
-            const show_history = document.getElementById('show-history');
-            index_main.removeChild(show_history);
-            if(!upload_history.length) {
-                index_main.classList.remove('laptop-mode');
+        if(upload_history.length) {
+            if(upload_history_old.length && upload_history[0][0] === upload_history_old[0][0])
                 return;
+            if(!index_main.classList.contains('contains-history'))
+                index_main.classList.add('contains-history');
+        } else {
+            if(upload_history_old.length) {
+                upload_history_old = [];
+                index_main.classList.remove('contains-history');
+                document.getElementById('show-history').remove();
             }
+            return;
         }
+        upload_history_old = upload_history;
 
         index_main.insertAdjacentHTML("afterbegin", `
         <div class='show-history' id='show-history'>
             ${upload_history.map(e => formatPost(e)).join('')}
         </div>
         `);
-
-        console.log(index_main.outerHTML)
     }
 
     function getHistory() {
@@ -39,11 +41,7 @@ function setHistoryGetter() {
         http_request.onreadystatechange = () =>{
             if(http_request.readyState === 4 && http_request.status === 200) {
                 res = JSON.parse(http_request.responseText);
-                if(upload_history && upload_history.length && res.data.length &&
-                    upload_history[0][0] === res.data[0][0])
-                    return;
-                upload_history = res.data;
-                updatePage();
+                updatePage(res.data);
             }
         };
         http_request.send();
@@ -51,7 +49,7 @@ function setHistoryGetter() {
 
     getHistory();
     // get history every minute
-    setInterval(getHistory, 60000);
+    setInterval(getHistory, 10000);
 }
 
 function copy(text) {

@@ -54,7 +54,7 @@
     text-align: center;
 }
 
-.laptop-mode .upload-panel {
+.contains-history .upload-panel {
     width: calc(100% * 0.8);
     border-left: 1px solid black;
 }
