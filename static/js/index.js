@@ -1,7 +1,7 @@
 const apostrophe = '@@replacedapostrophe@@'
 
 window.onload = () => {
-    if(display_mode === 'Laptop') {
+    if(screen.width > screen.height) {
         document.getElementById('nv-bar').classList.add('nv-bar-laptop');
         document.getElementById('index-main').classList.add('laptop-mode');
         setHistoryGetter();
@@ -13,6 +13,7 @@ var upload_history_old = [];
 function setHistoryGetter() {
     function updatePage(upload_history) {
         const index_main = document.getElementById('index-main');
+        const current = document.getElementById('show-history');
         if(upload_history.length) {
             if(upload_history_old.length && upload_history[0][0] === upload_history_old[0][0])
                 return;
@@ -22,10 +23,13 @@ function setHistoryGetter() {
             if(upload_history_old.length) {
                 upload_history_old = [];
                 index_main.classList.remove('contains-history');
-                document.getElementById('show-history').remove();
+                current.remove();
             }
             return;
         }
+        
+        if(current)
+            current.remove();
         upload_history_old = upload_history;
 
         index_main.insertAdjacentHTML("afterbegin", `
@@ -49,7 +53,7 @@ function setHistoryGetter() {
 
     getHistory();
     // get history every minute
-    setInterval(getHistory, 10000);
+    setInterval(getHistory, 60000);
 }
 
 function copy(text) {
@@ -182,8 +186,14 @@ async function upload(type) {
         cancel_img.title = '取消';
         cancel.appendChild(cancel_img);
 
+        const user_id_submit = document.createElement('input');
+        user_id_submit.type = 'hidden';
+        user_id_submit.name = 'user_id';
+        user_id_submit.value = user_id;
+
         form.appendChild(submit);
         form.appendChild(cancel);
+        form.appendChild(user_id_submit);
         
         cover.appendChild(form);
         return form;

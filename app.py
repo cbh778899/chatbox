@@ -2,37 +2,22 @@ from flask import *
 import random
 from modules.dataBox import dataBox
 
-mode = None
-user_id = None
 data_box = dataBox()
 
 app = Flask(__name__)
 
-@app.route('/', methods=['GET', 'POST'])
-def root():
-    if request.method == 'POST':
-        global mode
-        global user_id
-        # get website display mode (Laptop / Mobile)
-        mode = request.form.get('display_mode')
-        # generate uid by ip address
-        random.seed(request.remote_addr)
-        user_id = str(random.random().hex())
-        return redirect('/home')
-    return render_template('init.html')
 
-@app.route('/home')
+@app.route('/')
 def home():
-    if mode and user_id:
-        return render_template('index.html',
-            user_id = user_id, display_mode = mode)
-    return redirect('/')
+    random.seed(request.remote_addr)
+    return render_template('index.html',
+        user_id = str(random.random().hex()))
 
 @app.route('/upload', methods=['POST'])
 def upload():
     if request.method == 'POST':
         upload_type = request.form.get('type')
-        path = request.form.get('path')
+        user_id = request.form.get('user_id')
         if upload_type == 'text':
             text = request.form.get('text')
             text = text.replace('\r\n', '\n')
@@ -41,7 +26,7 @@ def upload():
             files = request.files.getlist('file')
             for f in files:
                 data_box.files.new(user_id, f)
-        return redirect(path)
+        # TODO return without calculate id again
     return redirect('/')
 
 @app.route('/history', methods=['GET'])
@@ -63,12 +48,11 @@ def remove():
     if request.method == 'POST':
         post_type = request.form.get('type')
         post_id = request.form.get('id')
-        path = request.form.get('path')
         if post_type == 'file':
             data_box.files.remove(post_id)
         elif post_type == 'chat':
             data_box.chat.remove(post_id)
-        return redirect(path)
+        # TODO return without calculate id again
     return redirect('/')
 
 if __name__ == "__main__":
