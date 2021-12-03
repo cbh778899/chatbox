@@ -61,6 +61,20 @@ function copy(text) {
     )
 }
 
+function remove(type, id) {
+    const rm_form = document.createElement('form');
+    rm_form.method = 'POST';
+    rm_form.action = '/remove';
+    rm_form.innerHTML = `
+        <input type='hidden' name='type' value='${type}'>
+        <input type='hidden' name='id' value='${id}'>
+        <input type='hidden' name='path' value='${window.location.pathname}'>
+    `;
+    document.body.appendChild(rm_form);
+    rm_form.submit();
+    document.body.removeChild(rm_form);
+}
+
 function formatPost(post) {
     var main_str = "";
     if(post[4] === 'file') {
@@ -94,7 +108,9 @@ function formatPost(post) {
         ${post[4] === 'file' ? 
         `<a href='/file/${post[0]}_${post[3]}'
             download='${post[3]}' class='op'>下载</a>` :
-        `<span class='op' onclick="copy('${post[3].replace(/'/g, apostrophe)}')">复制</span>`}
+        `<span class='op' onclick="copy('${post[3].replace(/'/g, apostrophe)}')">复制</span>`
+        }${post[2] === user_id ? 
+        `<span class='op danger' onclick="remove('${post[4]}', ${post[0]})">删除</span>` : ''}
     </form>`)
 }
 

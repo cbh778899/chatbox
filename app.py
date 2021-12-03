@@ -28,7 +28,7 @@ def home():
             user_id = user_id, display_mode = mode)
     return redirect('/')
 
-@app.route('/upload', methods=['GET', 'POST'])
+@app.route('/upload', methods=['POST'])
 def upload():
     if request.method == 'POST':
         upload_type = request.form.get('type')
@@ -58,5 +58,18 @@ def file(filename):
     response.headers["Content-Disposition"] = "attachment; filename={}".format(filename.encode().decode('utf-8'))
     return send_from_directory(file_path, filename, as_attachment=True)
 
+@app.route('/remove', methods=['POST'])
+def remove():
+    if request.method == 'POST':
+        post_type = request.form.get('type')
+        post_id = request.form.get('id')
+        path = request.form.get('path')
+        if post_type == 'file':
+            data_box.files.remove(post_id)
+        elif post_type == 'chat':
+            data_box.chat.remove(post_id)
+        return redirect(path)
+    return redirect('/')
+
 if __name__ == "__main__":
-    app.run(port=8080, debug=True)
+    app.run(host='0.0.0.0', port=8080, debug=True)

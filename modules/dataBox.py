@@ -1,5 +1,6 @@
 import sqlite3
 import os
+from pathlib import Path
 from datetime import datetime
 
 
@@ -29,6 +30,12 @@ class chat:
         cursor.execute(
             'insert into chat(time, uploader, content) values (?, ?, ?)',
             [str(datetime.now()), str(user), str(content)])
+        close(conn, cursor, True)
+
+    def remove(self, id):
+        conn = sqlite3.connect(self.path)
+        cursor = conn.cursor()
+        cursor.execute('delete from chat where id=?', [int(id)])
         close(conn, cursor, True)
 
 class files:
@@ -63,6 +70,14 @@ class files:
         f.save(os.path.join(self.__data_path, 
             str(cursor.lastrowid) + '_' + filename))
         close(conn, cursor, True)
+    
+    def remove(self, id):
+        conn = sqlite3.connect(self.__db_path)
+        cursor = conn.cursor()
+        cursor.execute('delete from files where id=?', [int(id)])
+        close(conn, cursor, True)
+        for f in Path(self.__data_path).glob(str(id)+'_*'):
+            os.remove(f)
 
 class dataBox:
 
