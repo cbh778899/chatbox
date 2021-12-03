@@ -144,6 +144,13 @@ async function upload(type) {
         cover.className = 'cover';
         return cover;
     }
+
+    function createLoadingPage(cover) {
+        const loading = document.createElement('div');
+        loading.className = 'loading';
+        loading.innerHTML = "<img src='static/pic/arrow-repeat.svg'><span>Loading</span>";
+        cover.appendChild(loading);
+    }
     
     function createForm(cover) {
         const form = document.createElement('form');
@@ -154,7 +161,11 @@ async function upload(type) {
 
         const submit = document.createElement('div');
         submit.className = 'functional-btn';
-        submit.onclick = () => form.submit();
+        submit.onclick = () => {
+            form.style.display = 'none';
+            createLoadingPage(cover);
+            form.submit();
+        }
         const submit_img = document.createElement('img');
         submit_img.src = 'static/pic/upload.svg';
         submit_img.title = '上传';
