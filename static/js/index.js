@@ -1,16 +1,26 @@
 const apostrophe = '@@replacedapostrophe@@'
 
+var intervals = [null];
+var display_mode = 'Mobile';
+
 window.onload = () => {
     if(screen.width > screen.height) {
+        display_mode = 'Laptop'
         document.getElementById('nv-bar').classList.add('nv-bar-laptop');
         document.getElementById('index-main').classList.add('laptop-mode');
-        setHistoryGetter();
     }
+    loadPage();
 }
 
-var upload_history_old = [];
+function removeIntervals() {
+    intervals.forEach(e=>{
+        clearInterval(e);
+    })
+}
 
 function setHistoryGetter() {
+    var upload_history_old = [];
+
     function updatePage(upload_history) {
         const index_main = document.getElementById('index-main');
         const current = document.getElementById('show-history');
@@ -53,7 +63,7 @@ function setHistoryGetter() {
 
     getHistory();
     // get history every minute
-    setInterval(getHistory, 60000);
+    intervals[0] = setInterval(getHistory, 60000);
 }
 
 function copy(text) {

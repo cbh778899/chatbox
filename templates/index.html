@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>chatbox</title>
+        <meta charset="UTF-8">
+        <link rel='stylesheet' type='text/css' href="{{ url_for('static', filename='css/common.css') }}">
+        <link rel='stylesheet' type='text/css' href="{{ url_for('static', filename='css/index.css') }}">
+        <script>
+            const user_id = "{{ user_id }}";
+        </script>
+        <script src="{{ url_for('static', filename='js/common.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+    </head>
+    <body>
+        <div class="nv-bar" id='nv-bar' onclick="openMenu()">
+            <img src="{{ url_for('static', filename='pic/list.svg') }}">
+        </div>
+        <div class="index-main" id='index-main'></div>
+    </body>
+</html>
