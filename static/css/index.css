@@ -188,18 +188,13 @@
 }
 
 .index-main .view-page {
-    width: 90%;
-    height: calc(90% - 100px);
-    padding: 5%;
-    display: block;
     position: absolute;
-    bottom: 0;
-    left: 0;
+    display: block;
+    height: calc(100% - 100px);
+    width: calc(100% - 100px);
+    top: 0;
     overflow-y: auto;
-}
-
-.laptop-mode .view-page {
-    height: calc(90% - 50px);
+    padding: 50px;
 }
 
 .index-main .view-page .post-info {
@@ -212,4 +207,9 @@
 
 .index-main .view-page .post-info .op {
     margin-right: 20px;
+}
+
+.index-main .view-page .no-upload {
+    text-align: center;
+    margin-top: 30vh;
 }

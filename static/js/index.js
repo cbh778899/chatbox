@@ -260,7 +260,10 @@ function viewUploads(type) {
 
         record_old = uploads;
         const view_page = document.getElementById('view-page');
-        view_page.innerHTML = uploads.map(e => formatPost(e)).join('');
+        if(uploads.length)
+            view_page.innerHTML = uploads.map(e => formatPost(e)).join('');
+        else
+            view_page.innerHTML = "<h1 class='no-upload'>当前没有任何记录，可以前往主页进行上传！</h1>";
     }
 
     function getUploads() {
