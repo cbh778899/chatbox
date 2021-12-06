@@ -67,10 +67,31 @@ function setHistoryGetter() {
 }
 
 function copy(text) {
+
+    function showCopied() {
+        const copied = document.createElement('div');
+        copied.className = 'copied-alert';
+        copied.innerHTML = '复制成功！';
+        document.body.appendChild(copied);
+        new Promise(s => setTimeout(() => {
+            copied.remove();
+            s();
+        }, 1000));
+    }
+
     text = text.replace(new RegExp(apostrophe, "g"), '\'');
-    navigator.clipboard.writeText(text).then(
-        ()=>alert(1), err=>alert(err)
-    )
+    if(navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(showCopied)
+    } else {
+        const copy_text = document.createElement('textarea');
+        copy_text.className = 'hidden-text-area';
+        copy_text.value = text;
+        document.body.appendChild(copy_text);
+        copy_text.select();
+        document.execCommand('copy');
+        showCopied();
+        copy_text.remove();
+    }
 }
 
 function remove(type, id) {
