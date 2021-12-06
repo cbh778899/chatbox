@@ -1,21 +1,19 @@
 const apostrophe = '@@replacedapostrophe@@'
 
-var intervals = [null, null, null];
+var current_interval = null;
 var display_mode = 'Mobile';
 
-window.onload = () => {
+window.onload = async () => {
     if(screen.width > screen.height) {
         display_mode = 'Laptop'
         document.getElementById('nv-bar').classList.add('nv-bar-laptop');
         document.getElementById('index-main').classList.add('laptop-mode');
     }
-    loadPage();
+    await loadPage();
 }
 
 function removeIntervals() {
-    intervals.forEach(e=>{
-        clearInterval(e);
-    })
+    clearInterval(current_interval);
 }
 
 function setHistoryGetter() {
@@ -63,7 +61,7 @@ function setHistoryGetter() {
 
     getHistory();
     // get history every minute
-    intervals[0] = setInterval(getHistory, 60000);
+    current_interval = setInterval(getHistory, 10000);
 }
 
 function copy(text) {
@@ -299,8 +297,8 @@ function viewUploads(type) {
         http_request.send();
     }
 
-    loadPage('view');
-
-    getUploads();
-    intervals[(type === 'chat' ? 1 : 2)] = setInterval(getUploads, 10000);
+    loadPage('view').then(()=>{
+        getUploads();
+        current_interval = setInterval(getUploads, 10000);
+    });
 }
