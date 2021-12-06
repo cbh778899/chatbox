@@ -1,4 +1,6 @@
-// const apostrophe = '@@replacedapostrophe@@'
+const apostrophe = '@@replacedapostrophe@@';
+const double_quotes = '@@replacedoublequotes@@';
+const backtick = '@@replacebacktick@@';
 
 var current_interval = null;
 var display_mode = 'Mobile';
@@ -77,7 +79,10 @@ function copy(text) {
         }, 1000));
     }
 
-    // text = text.replace(new RegExp(apostrophe, "g"), '\'');
+    text = text
+        .replace(new RegExp(apostrophe, "g"), '\'')
+        .replace(new RegExp(backtick, "g"), '`')
+        .replace(new RegExp(double_quotes, "g"), '"');
     if(navigator.clipboard && window.isSecureContext) {
         navigator.clipboard.writeText(text).then(showCopied)
     } else {
@@ -139,7 +144,11 @@ function formatPost(post) {
         ${post[4] === 'file' ? 
         `<a href='/file/${post[0]}_${post[3]}'
             download='${post[3]}' class='op'>下载</a>` :
-        `<span class='op' onclick="copy(\`${post[3]}\`)">复制</span>`
+        `<span class='op' onclick="copy(\`${post[3]
+            .replace(/'/g, apostrophe)
+            .replace(/`/g, backtick)
+            .replace(/"/g, double_quotes)
+            }\`)">复制</span>`
         }${post[2] === user_id ? 
         `<span class='op danger' onclick="remove('${post[4]}', ${post[0]})">删除</span>` : ''}
     </form>`)
