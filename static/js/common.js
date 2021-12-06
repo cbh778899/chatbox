@@ -15,6 +15,9 @@ async function loadPage(page = 'init') {
         case 'menu':
             index_main.insertAdjacentHTML('afterbegin', menu);
             break;
+        case 'view':
+            index_main.innerHTML = views;
+            break;
         default: return;
     }
 }
@@ -56,9 +59,11 @@ const main = `
 const menu = `
 <div class='menu' id='menu'>
     <span class='menu-item' onclick="loadPage('main')">主页</span>
-    <span class='menu-item'>查看所有文字记录</span>
-    <span class='menu-item'>查看所有文件记录</span>
+    <span class='menu-item' onclick="viewUploads('chat')">查看所有文字记录</span>
+    <span class='menu-item' onclick="viewUploads('files')">查看所有文件记录</span>
     <span class='menu-item'>管理我的上传记录</span>
     <span class='menu-item'>设置</span>
 </div>
 `;
+
+const views = `<div class='view-page' id='view-page'></div>`

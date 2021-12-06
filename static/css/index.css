@@ -103,7 +103,7 @@
     overflow-y: auto;
 }
 
-.index-main .show-history .post-info {
+.post-info {
     white-space: pre-line;
     display: block;
     font-size: small;
@@ -112,18 +112,18 @@
     margin-bottom: 20px;
 }
 
-.index-main .show-history .post-info span {
+.post-info span {
     font-size: medium;
     display: block;
     margin-top: 10px;
 }
 
-.index-main .show-history .post-info img {
+.post-info img {
     max-width: 100%;
     max-height: 300px;
 }
 
-.index-main .show-history .post-info .op {
+.post-info .op {
     font-size: small;
     color: dodgerblue;
     text-decoration: none;
@@ -133,11 +133,11 @@
     display: inline-block;
 }
 
-.index-main .show-history .post-info .danger {
+.post-info .danger {
     color: crimson;
 }
 
-.index-main .show-history .post-info .op:hover {
+.post-info .op:hover {
     cursor: pointer;
 }
 
@@ -185,4 +185,31 @@
     font-size: xx-large;
     white-space: pre-line;
     z-index: 2;
+}
+
+.index-main .view-page {
+    width: 90%;
+    height: calc(90% - 100px);
+    padding: 5%;
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    overflow-y: auto;
+}
+
+.laptop-mode .view-page {
+    height: calc(90% - 50px);
+}
+
+.index-main .view-page .post-info {
+    font-size: medium;
+}
+
+.index-main .view-page .post-info span {
+    font-size: large;
+}
+
+.index-main .view-page .post-info .op {
+    margin-right: 20px;
 }

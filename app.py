@@ -36,6 +36,18 @@ def getHistory():
             jsonify({'data': data_box.getAllHistory()}), 200)
     return None
 
+@app.route('/uploads/<type>', methods=['GET'])
+def geUploads(type):
+    if request.method == 'GET':
+        data = None
+        if type == 'chat':
+            data = data_box.chat.getChatHistory()
+        elif type == 'files':
+            data = data_box.files.getAllFiles()
+        return make_response(
+            jsonify({'data': data}), 200)
+    return None
+
 @app.route('/file/<filename>', methods=['GET'])
 def file(filename):
     file_path = data_box.files.getFilePath()
@@ -54,6 +66,10 @@ def remove():
             data_box.chat.remove(post_id)
         # TODO return without calculate id again
     return redirect('/')
+
+@app.route('/favicon.ico')
+def favicon():
+    return redirect(url_for('static', filename='pic/favicon.ico'))
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8080, debug=True)

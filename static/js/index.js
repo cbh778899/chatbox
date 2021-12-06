@@ -1,6 +1,6 @@
 const apostrophe = '@@replacedapostrophe@@'
 
-var intervals = [null];
+var intervals = [null, null, null];
 var display_mode = 'Mobile';
 
 window.onload = () => {
@@ -226,7 +226,7 @@ async function upload(type) {
                 <input type='file' name='file'
                     onchange='getSelectedFiles(event)' multiple=''>
                 <span id='file-info' class='file-info'
-                    >当前未选择任何文件，请点击并选择文件
+                    >当前未选择任何文件，请点击此处选择文件或拖拽文件到此处
                 </span>
             </div>
             <input type='hidden' name='type' value='file'>
@@ -246,4 +246,37 @@ async function upload(type) {
     document.body.appendChild(cover);
     await new Promise(s=>setTimeout(s, 1));
     cover.style.transform = 'scale(1, 1)';
+}
+
+// similiar to history one
+function viewUploads(type) {
+
+    var record_old = [];
+
+    function updatePage(uploads) {
+        if(uploads.length && record_old.length &&
+           record_old[0][0] === uploads[0][0])
+            return;
+
+        record_old = uploads;
+        const view_page = document.getElementById('view-page');
+        view_page.innerHTML = uploads.map(e => formatPost(e)).join('');
+    }
+
+    function getUploads() {
+        const http_request = new XMLHttpRequest();
+        http_request.open('GET', '/uploads/'+type, true);
+        http_request.onreadystatechange = () =>{
+            if(http_request.readyState === 4 && http_request.status === 200) {
+                res = JSON.parse(http_request.responseText);
+                updatePage(res.data);
+            }
+        };
+        http_request.send();
+    }
+
+    loadPage('view');
+
+    getUploads();
+    intervals[(type === 'chat' ? 1 : 2)] = setInterval(getUploads, 10000);
 }
