@@ -187,6 +187,7 @@
     z-index: 2;
 }
 
+.index-main .settings,
 .index-main .view-page {
     position: absolute;
     display: block;
@@ -195,6 +196,10 @@
     top: 0;
     overflow-y: auto;
     padding: 50px;
+}
+
+.index-main .settings {
+    text-align: center;
 }
 
 .index-main .view-page .post-info {
@@ -213,4 +218,42 @@
 .index-main .view-page .no-upload {
     text-align: center;
     margin-top: 30vh;
+}
+
+.index-main .settings .single-setting {
+    font-size: xx-large;
+    display: inline-block;
+    margin-top: 50px;
+    width: auto;
+}
+
+.index-main .settings .single-setting input[type='number'] {
+    width: 70px;
+    height: 40px;
+    display: inline;
+}
+
+.index-main .settings .single-setting .note {
+    font-size: large;
+    display: block;
+    color: blue;
+    margin-top: 10px;
+    text-align: left;
+}
+
+.index-main .settings .update {
+    display: block;
+    width: 200px;
+    height: 50px;
+    border-radius: 15px;
+    border: 1px solid black;
+    background-color: rgb(20, 134, 245);
+    color: white;
+    margin: auto;
+    margin-top: 50px;
+}
+
+.index-main .settings .update:hover {
+    cursor: pointer;
+    background-color: rgb(30, 144, 255);
 }

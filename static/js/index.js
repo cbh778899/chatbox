@@ -11,6 +11,7 @@ window.onload = async () => {
         document.getElementById('nv-bar').classList.add('nv-bar-laptop');
         document.getElementById('index-main').classList.add('laptop-mode');
     }
+    loadSettings();
     await loadByPath();
 }
 
@@ -63,28 +64,18 @@ function setHistoryGetter() {
 
     getHistory();
     // get history every minute
-    current_interval = setInterval(getHistory, 10000);
+    current_interval = setInterval(getHistory, 
+        parseFloat(localStorage.getItem('get_history_timeout'))*1000);
 }
 
 function copy(text) {
-
-    function showCopied() {
-        const copied = document.createElement('div');
-        copied.className = 'copied-alert';
-        copied.innerHTML = '复制成功！';
-        document.body.appendChild(copied);
-        new Promise(s => setTimeout(() => {
-            copied.remove();
-            s();
-        }, 1000));
-    }
 
     text = text
         .replace(new RegExp(apostrophe, "g"), '\'')
         .replace(new RegExp(backtick, "g"), '`')
         .replace(new RegExp(double_quotes, "g"), '"');
     if(navigator.clipboard && window.isSecureContext) {
-        navigator.clipboard.writeText(text).then(showCopied)
+        navigator.clipboard.writeText(text).then(()=>showSomething('复制成功！'))
     } else {
         const copy_text = document.createElement('textarea');
         copy_text.className = 'hidden-text-area';
@@ -92,7 +83,7 @@ function copy(text) {
         document.body.appendChild(copy_text);
         copy_text.select();
         document.execCommand('copy');
-        showCopied();
+        showSomething('复制成功！');
         copy_text.remove();
     }
 }
@@ -308,6 +299,7 @@ function viewUploads(type) {
     loadPage('view').then(()=>{
         new CookiesOp().setCookie('path', `view_${type}`);
         getUploads();
-        current_interval = setInterval(getUploads, 10000);
+        current_interval = setInterval(getUploads, 
+            parseFloat(localStorage.getItem('get_history_timeout'))*1000);
     });
 }

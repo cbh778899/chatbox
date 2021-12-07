@@ -9,6 +9,8 @@ async function loadByPath() {
             viewUploads('files'); break;
         case 'view_user':
             viewUploads('user'); break;
+        case 'setting':
+            loadSettingPage(); break;
         default: await loadPage('init'); return;
     }
 }
@@ -33,6 +35,9 @@ async function loadPage(page) {
             break;
         case 'view':
             index_main.innerHTML = views;
+            break;
+        case 'setting':
+            index_main.innerHTML = settings;
             break;
         default: return;
     }
@@ -62,6 +67,39 @@ async function openMenu() {
     }
 }
 
+function loadSettings() {
+    if(!localStorage.getItem('get_history_timeout'))
+        localStorage.setItem('get_history_timeout', '10');
+
+    // console.log(localStorage.getItem('get_history_timeout'));
+}
+
+function loadSettingPage() {
+    new CookiesOp().setCookie('path', 'setting');
+    loadPage('setting');
+}
+
+function submitSetting(event) {
+    event.preventDefault();
+
+    const seconds = parseFloat(event.target.seconds.value);
+    if(seconds >= -1) {
+        localStorage.setItem('get_history_timeout', seconds.toString());
+        showSomething("更新成功！");
+    }
+}
+
+function showSomething(text) {
+    const copied = document.createElement('div');
+    copied.className = 'show-something-alert';
+    copied.innerHTML = text;
+    document.body.appendChild(copied);
+    new Promise(s => setTimeout(() => {
+        copied.remove();
+        s();
+    }, 1000));
+}
+
 const main = `
 <div class="upload-panel">
     <div class="select-btn select-btn-text" onclick="upload(0)">
@@ -78,11 +116,24 @@ const menu = `
     <span class='menu-item' onclick="viewUploads('chat')">查看所有文字记录</span>
     <span class='menu-item' onclick="viewUploads('files')">查看所有文件记录</span>
     <span class='menu-item' onclick="viewUploads('user')">管理我的上传记录</span>
-    <span class='menu-item'>设置</span>
+    <span class='menu-item' onclick="loadSettingPage()">设置</span>
 </div>
 `;
 
 const views = `<div class='view-page' id='view-page'></div>`;
+
+const settings = `
+<form class='settings' onsubmit='submitSetting(event)'>
+    <div class='single-setting' name='set-auto-get-time'>
+        <span>设置自动获取最新消息时间（秒数）：<input 
+            type='number' value='${
+                parseFloat(localStorage.getItem('get_history_timeout'))
+            }' name='seconds'></span>
+        <span class='note'>*默认为10秒，如果设置为-1即视为关闭</span>
+    </div>
+    <button type='submit' class='update'>更新设置</button>
+</form>
+`;
 
 
 class CookiesOp {
