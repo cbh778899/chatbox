@@ -23,6 +23,16 @@ class chat:
             chat_history[i] = list(chat_history[i])
             chat_history[i].append('chat')
         return chat_history
+
+    def getUserChats(self, id):
+        conn = sqlite3.connect(self.path)
+        cursor = conn.cursor()
+        chat_history = cursor.execute('select * from chat where uploader = ?;', [id]).fetchall()
+        close(conn, cursor)
+        for i in range(len(chat_history)):
+            chat_history[i] = list(chat_history[i])
+            chat_history[i].append('chat')
+        return chat_history
     
     def new(self, user, content):
         conn = sqlite3.connect(self.path)
@@ -47,6 +57,16 @@ class files:
         conn = sqlite3.connect(self.__db_path)
         cursor = conn.cursor()
         files_list = cursor.execute('select * from files;').fetchall()
+        close(conn, cursor)
+        for i in range(len(files_list)):
+            files_list[i] = list(files_list[i])
+            files_list[i].append('file')
+        return files_list
+
+    def getUserFiles(self, id):
+        conn = sqlite3.connect(self.__db_path)
+        cursor = conn.cursor()
+        files_list = cursor.execute('select * from files where uploader = ?;', [id]).fetchall()
         close(conn, cursor)
         for i in range(len(files_list)):
             files_list[i] = list(files_list[i])
@@ -122,5 +142,15 @@ class dataBox:
 
         if len(history) > 9:
             history = history[0:9]
+
+        return history
+
+    def getAllUserHistory(self, id):
+        chat_history = self.chat.getUserChats(id)
+        file_history = self.files.getUserFiles(id)
+        
+        history = []
+        history.extend(chat_history)
+        history.extend(file_history)
 
         return history

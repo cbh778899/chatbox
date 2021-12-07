@@ -1,6 +1,5 @@
 async function loadByPath() {
     const path = new CookiesOp().getCookie('path');
-    console.log(path);
     switch(path) {
         case 'main':
             await loadPage('main'); break;
@@ -8,6 +7,8 @@ async function loadByPath() {
             viewUploads('chat'); break;
         case 'view_files':
             viewUploads('files'); break;
+        case 'view_user':
+            viewUploads('user'); break;
         default: await loadPage('init'); return;
     }
 }
@@ -76,7 +77,7 @@ const menu = `
     <span class='menu-item' onclick="loadPage('main')">主页</span>
     <span class='menu-item' onclick="viewUploads('chat')">查看所有文字记录</span>
     <span class='menu-item' onclick="viewUploads('files')">查看所有文件记录</span>
-    <span class='menu-item'>管理我的上传记录</span>
+    <span class='menu-item' onclick="viewUploads('user')">管理我的上传记录</span>
     <span class='menu-item'>设置</span>
 </div>
 `;

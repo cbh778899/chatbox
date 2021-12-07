@@ -37,13 +37,16 @@ def getHistory():
     return None
 
 @app.route('/uploads/<type>', methods=['GET'])
-def geUploads(type):
+@app.route('/uploads/<type>/<uid>', methods=['GET'])
+def geUploads(type, uid = None):
     if request.method == 'GET':
         data = None
         if type == 'chat':
             data = data_box.chat.getChatHistory()
         elif type == 'files':
             data = data_box.files.getAllFiles()
+        elif type == 'user':
+            data = data_box.getAllUserHistory(str(uid))
         return make_response(
             jsonify({'data': data}), 200)
     return None

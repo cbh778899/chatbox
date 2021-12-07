@@ -295,7 +295,7 @@ function viewUploads(type) {
 
     function getUploads() {
         const http_request = new XMLHttpRequest();
-        http_request.open('GET', '/uploads/'+type, true);
+        http_request.open('GET', `/uploads/${type}${type==='user' ? `/${user_id}` : ''}`, true);
         http_request.onreadystatechange = () =>{
             if(http_request.readyState === 4 && http_request.status === 200) {
                 res = JSON.parse(http_request.responseText);
