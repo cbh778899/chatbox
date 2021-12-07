@@ -55,8 +55,9 @@ def geUploads(type, uid = None):
 def file(filename):
     file_path = data_box.files.getFilePath()
     response = make_response(send_from_directory(file_path, filename, as_attachment=True))
-    response.headers["Content-Disposition"] = "attachment; filename={}".format(filename.encode().decode('utf-8'))
-    return send_from_directory(file_path, filename, as_attachment=True)
+    response.headers["Content-Disposition"] = "attachment; filename={}".format(
+        filename.encode().decode('latin-1')[filename.find('_')+1:])
+    return response
 
 @app.route('/remove', methods=['POST'])
 def remove():
