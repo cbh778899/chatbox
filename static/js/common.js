@@ -1,4 +1,18 @@
-async function loadPage(page = 'init') {
+async function loadByPath() {
+    const path = new CookiesOp().getCookie('path');
+    console.log(path);
+    switch(path) {
+        case 'main':
+            await loadPage('main'); break;
+        case 'view_chat':
+            viewUploads('chat'); break;
+        case 'view_files':
+            viewUploads('files'); break;
+        default: await loadPage('init'); return;
+    }
+}
+
+async function loadPage(page) {
     if(page !== 'menu' && page !== 'init') {
         await closeMenu(true);
         removeIntervals();
@@ -8,6 +22,7 @@ async function loadPage(page = 'init') {
     switch(page) {
         case 'init':
         case 'main':
+            new CookiesOp().setCookie('path', 'main');
             if(display_mode === 'Laptop')
                 setHistoryGetter();
             index_main.innerHTML = main;
@@ -66,4 +81,35 @@ const menu = `
 </div>
 `;
 
-const views = `<div class='view-page' id='view-page'></div>`
+const views = `<div class='view-page' id='view-page'></div>`;
+
+
+class CookiesOp {
+
+    getCookie(key) {
+        if(document.cookie.length) {
+            const parts = document.cookie.split(';');
+            for(var i = 0; i < parts.length; i++) {
+                const [k, v] = parts[i].split('=');
+                if(k === key)
+                    return v;
+            }
+        }
+        return null;
+    }
+
+    setCookie(key, value) {
+        var cookie_str = '';
+        if(document.cookie.length) {
+            const parts = document.cookie.split(';');
+            for(var i = 0; i < parts.length; i++) {
+                const [k, v] = parts[i].split('=')[0];
+                if(k === key)
+                    continue;
+                cookie_str += `${k}=${v};`;
+            }
+        }
+        document.cookie = `${key}=${value};` + cookie_str;
+    }
+
+}

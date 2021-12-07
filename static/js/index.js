@@ -11,7 +11,7 @@ window.onload = async () => {
         document.getElementById('nv-bar').classList.add('nv-bar-laptop');
         document.getElementById('index-main').classList.add('laptop-mode');
     }
-    await loadPage();
+    await loadByPath();
 }
 
 function removeIntervals() {
@@ -104,7 +104,6 @@ function remove(type, id) {
     rm_form.innerHTML = `
         <input type='hidden' name='type' value='${type}'>
         <input type='hidden' name='id' value='${id}'>
-        <input type='hidden' name='path' value='${window.location.pathname}'>
     `;
     document.body.appendChild(rm_form);
     rm_form.submit();
@@ -307,6 +306,7 @@ function viewUploads(type) {
     }
 
     loadPage('view').then(()=>{
+        new CookiesOp().setCookie('path', `view_${type}`);
         getUploads();
         current_interval = setInterval(getUploads, 10000);
     });
