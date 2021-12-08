@@ -64,8 +64,10 @@ function setHistoryGetter() {
 
     getHistory();
     // get history every minute
-    current_interval = setInterval(getHistory, 
-        parseFloat(localStorage.getItem('get_history_timeout'))*1000);
+    if(parseInt(localStorage.getItem('get_history_timeout')) !== -1) {
+        current_interval = setInterval(getHistory, 
+            parseFloat(localStorage.getItem('get_history_timeout'))*1000);
+    }
 }
 
 function copy(text) {
@@ -299,7 +301,9 @@ function viewUploads(type) {
     loadPage('view').then(()=>{
         new CookiesOp().setCookie('path', `view_${type}`);
         getUploads();
-        current_interval = setInterval(getUploads, 
-            parseFloat(localStorage.getItem('get_history_timeout'))*1000);
+        if(parseInt(localStorage.getItem('get_history_timeout')) !== -1) {
+            current_interval = setInterval(getUploads, 
+                parseFloat(localStorage.getItem('get_history_timeout'))*1000);
+        }
     });
 }
