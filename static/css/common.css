@@ -98,7 +98,6 @@ body {
     transition-duration: 1s;
     z-index: 3;
     overflow-y: auto;
-    scrollbar-width: 5px;
     -ms-overflow-style: none;
     scrollbar-width: none;
 }
@@ -113,7 +112,6 @@ body {
     width: 88%;
     height: 150px;
     margin: 10px 1% 10px 1%;
-    /* margin-bottom: 10px; */
     font-size: xx-large;
     padding-left: 10%;
     line-height: 150px;
