@@ -5,6 +5,7 @@
     left: 0;
     top: 0;
     background-color: rgba(0, 0, 0, 0.5);
+    z-index: 3;
 }
 
 .nv-bar-laptop {
@@ -35,7 +36,7 @@
 .index-main {
     display: block;
     position: absolute;
-    bottom: 0;
+    top: 100px;
     left: 0;
     height: calc(100vh - 100px);
     width: 100vw;
@@ -43,6 +44,7 @@
 
 .laptop-mode {
     height: calc(100vh - 50px);
+    top: 50px;
 }
 
 .index-main .upload-panel {
