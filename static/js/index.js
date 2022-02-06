@@ -103,7 +103,7 @@ function remove(type, id) {
     document.body.removeChild(rm_form);
 }
 
-function formatPost(post) {
+function formatPost(post, is_file = false) {
     var main_str = "";
     if(post[4] === 'file') {
         if(post[3].match(/(.png|.jpg|.jpeg|.gif)$/i))
@@ -131,7 +131,10 @@ function formatPost(post) {
 
     return (
     `<form class='post-info'
-        >用户${post[2]}\n于${new Date(post[1]).toLocaleString()}发表：
+        >${is_file ? `<input class='file-selection'
+            type='checkbox' name='selected-file'
+            value='${post[0]}' onclick='selectFile()'>` : ''}用户${
+            post[2]}\n于${new Date(post[1]).toLocaleString()}发表：
         <span>${main_str}</span>
         ${post[4] === 'file' ? 
         `<a href='/file/${post[0]}_${post[3]}'
@@ -281,7 +284,7 @@ function viewUploads(type) {
         record_old = uploads;
         const view_page = document.getElementById('view-page');
         if(uploads.length)
-            view_page.innerHTML = uploads.map(e => formatPost(e)).join('');
+            view_page.innerHTML = uploads.map(e => formatPost(e, type === 'files')).join('');
         else
             view_page.innerHTML = "<h1 class='no-upload'>当前没有任何记录，可以前往主页进行上传！</h1>";
     }

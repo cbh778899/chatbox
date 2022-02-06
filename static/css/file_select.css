@@ -1,0 +1,17 @@
+.view-page .post-info .file-selection {
+    position: absolute;
+    margin-left: 90%;
+    height: 5%;
+    width: 5%;
+}
+
+.view-page .multiple-download {
+    display: block;
+    position: absolute;
+    width: 30%;
+    height: 50px;
+    background-color: dodgerblue;
+    color: white;
+    font-size: larger;
+    font-weight: bold;
+}
