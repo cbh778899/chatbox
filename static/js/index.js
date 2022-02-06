@@ -132,8 +132,8 @@ function formatPost(post, is_file = false) {
     return (
     `<form class='post-info'
         >${is_file ? `<input class='file-selection'
-            type='checkbox' name='selected-file'
-            value='${post[0]}' onclick='selectFile()'>` : ''}用户${
+            type='checkbox' name='file-selection'
+            value='${post[0]}' onclick='selectFile(event)'>` : ''}用户${
             post[2]}\n于${new Date(post[1]).toLocaleString()}发表：
         <span>${main_str}</span>
         ${post[4] === 'file' ? 

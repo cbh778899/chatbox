@@ -1,16 +1,20 @@
-var multiple_download_activated = false;
+var selected_to_download = 0;
 
-function selectFile() {
-    if(!multiple_download_activated) {
-        console.log(1)
-        multiple_download_activated = true;
+function multipleDownload() {
+    
+}
+
+function selectFile(event) {
+
+    selected_to_download += event.target.checked ? 1 : -1;
+
+    if(selected_to_download > 0 && !document.getElementById('multiple-download')) {
         document.getElementById('index-main').insertAdjacentHTML('afterbegin', 
-        `<div class='multiple-download'>
+        `<div class='multiple-download'
+            onclick='multipleDownload()' id='multiple-download'>
             批量下载所选内容
         </div>`)
+    } else if(selected_to_download <= 0) {
+        document.getElementById('multiple-download').remove();
     }
-    else {
-    }
-
-    const selected = document.querySelectorAll('input[name="selected-file"]');
 }

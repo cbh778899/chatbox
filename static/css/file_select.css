@@ -1,17 +1,27 @@
 .view-page .post-info .file-selection {
     position: absolute;
-    margin-left: 90%;
+    margin-left: 85%;
     height: 5%;
     width: 5%;
 }
 
-.view-page .multiple-download {
+.index-main .multiple-download {
     display: block;
     position: absolute;
-    width: 30%;
+    width: 25%;
     height: 50px;
-    background-color: dodgerblue;
+    background-color: skyblue;
     color: white;
     font-size: larger;
     font-weight: bold;
+    line-height: 50px;
+    text-align: center;
+    border-radius: 15px;
+    bottom: 10vh;
+    right: 9%;
+    z-index: 2;
+}
+
+.index-main .multiple-download:hover {
+    cursor: pointer;
 }
