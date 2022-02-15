@@ -2,6 +2,7 @@ import sqlite3
 import os
 from pathlib import Path
 from datetime import datetime
+from modules import zip
 
 
 def close(conn, cursor, commit = False):
@@ -49,8 +50,9 @@ class chat:
         close(conn, cursor, True)
 
 class files:
-    def __init__(self, data_path, db_path):
+    def __init__(self, data_path, tmp_path, db_path):
         self.__data_path = data_path
+        self.__tmp_path = tmp_path
         self.__db_path = db_path
     
     def getAllFiles(self):
@@ -84,7 +86,13 @@ class files:
         cursor = conn.cursor()
         query = 'select * from files where id in ({});'.format(', '.join(str(i) for i in IDs))
         file_list = cursor.execute(query).fetchall()
-        pass
+        file_path = self.getFilePath()
+        file_list_with_path = []
+        for e in file_list:
+            file_list_with_path.append(
+                "{}\\{}_{}".format(file_path, e[0], e[3])
+            )
+        return zip.packzip(self.__tmp_path, file_list_with_path)
 
     def new(self, user, f):
         filename = f.filename
@@ -113,16 +121,19 @@ class dataBox:
 
     def __init__(self):
         self.__DATA_BASIC_PATH = './chatbox_data'
+        self.__DATA_TMP_PATH = self.__DATA_BASIC_PATH + '/tmp'
         self.__DB_PATH = self.__DATA_BASIC_PATH + '/data.db'
 
         self.__initDB()
 
         self.chat = chat(self.__DB_PATH)
-        self.files = files(self.__DATA_BASIC_PATH, self.__DB_PATH)
+        self.files = files(self.__DATA_BASIC_PATH,
+            self.__DATA_TMP_PATH, self.__DB_PATH)
 
     def __initDB(self):
         if not os.path.isdir(self.__DATA_BASIC_PATH):
             os.mkdir(self.__DATA_BASIC_PATH)
+            os.mkdir(self.__DATA_TMP_PATH)
         if not os.path.isfile(self.__DB_PATH):
             with open(self.__DB_PATH, 'w') as f:
                 f.close()

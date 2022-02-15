@@ -1,5 +1,9 @@
+from fileinput import filename
+import os
 from flask import *
 import random
+
+from numpy import true_divide
 from modules.dataBox import dataBox
 
 data_box = dataBox()
@@ -63,7 +67,10 @@ def file(filename):
 def multipleFile():
     if request.method == 'POST':
         file_list = request.json
-        data_box.files.getFilesFromIDs(file_list)
+        whole_path = data_box.files.getFilesFromIDs(file_list)
+        path, name = os.path.split(whole_path)
+        response = make_response(send_from_directory(path, name, as_attachment=True))
+        return response
     return redirect('/')
 
 @app.route('/remove', methods=['POST'])
