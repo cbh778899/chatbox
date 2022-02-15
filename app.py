@@ -59,6 +59,13 @@ def file(filename):
         filename.encode().decode('latin-1')[filename.find('_')+1:])
     return response
 
+@app.route('/file/multiple', methods=['GET', 'POST'])
+def multipleFile():
+    if request.method == 'POST':
+        file_list = request.json
+        data_box.files.getFilesFromIDs(file_list)
+    return redirect('/')
+
 @app.route('/remove', methods=['POST'])
 def remove():
     if request.method == 'POST':

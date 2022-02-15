@@ -79,6 +79,13 @@ class files:
             self.__data_path.replace('./', '')
         )
 
+    def getFilesFromIDs(self, IDs):
+        conn = sqlite3.connect(self.__db_path)
+        cursor = conn.cursor()
+        query = 'select * from files where id in ({});'.format(', '.join(str(i) for i in IDs))
+        file_list = cursor.execute(query).fetchall()
+        pass
+
     def new(self, user, f):
         filename = f.filename
         conn = sqlite3.connect(self.__db_path)
