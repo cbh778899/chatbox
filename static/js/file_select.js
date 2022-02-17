@@ -1,5 +1,3 @@
-var selected_to_download = 0;
-
 function multipleDownload() {
     const all_files = document.querySelectorAll("input[type='checkbox'][name='file-selection']");
     var checked_files = [];
@@ -7,7 +5,17 @@ function multipleDownload() {
         if(e.checked)
             checked_files.push(parseInt(e.value))
     })
-    sendPostRequest(checked_files)
+    if(checked_files.length > 0)
+        sendPostRequest(checked_files)
+    else
+        showSomething("您还未选择任何文件！")
+}
+
+function changeAllStatus(status) {
+    const all_files = document.querySelectorAll("input[type='checkbox'][name='file-selection']");
+    all_files.forEach(e=>{
+        e.checked = status
+    })
 }
 
 function sendPostRequest(args) {
@@ -26,17 +34,20 @@ function sendPostRequest(args) {
     http_request.responseType = 'blob';
 }
 
-function selectFile(event) {
-
-    selected_to_download += event.target.checked ? 1 : -1;
-
-    if(selected_to_download > 0 && !document.getElementById('multiple-download')) {
-        document.getElementById('index-main').insertAdjacentHTML('afterbegin', 
-        `<div class='multiple-download'
-            onclick='multipleDownload()' id='multiple-download'>
+function createMultipleDownloadBtns() {
+    document.getElementById('index-main').insertAdjacentHTML('afterbegin', 
+    `<div id='multiple-download'>
+        <div class='select-all'
+            onclick='changeAllStatus(true)'>
+            全选
+        </div>
+        <div class='deselect-all'
+            onclick='changeAllStatus(false)'>
+            全不选
+        </div>
+        <div class='multiple-download'
+            onclick='multipleDownload()'>
             批量下载所选内容
-        </div>`)
-    } else if(selected_to_download <= 0) {
-        document.getElementById('multiple-download').remove();
-    }
+        </div>
+    </div>`)
 }

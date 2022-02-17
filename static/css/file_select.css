@@ -5,10 +5,11 @@
     width: 5%;
 }
 
-.index-main .multiple-download {
+.index-main .multiple-download,
+.index-main .select-all,
+.index-main .deselect-all {
     display: block;
     position: absolute;
-    width: 25%;
     height: 50px;
     background-color: skyblue;
     color: white;
@@ -17,11 +18,27 @@
     line-height: 50px;
     text-align: center;
     border-radius: 15px;
-    bottom: 10vh;
-    right: 9%;
     z-index: 2;
+    right: 9%;
 }
 
-.index-main .multiple-download:hover {
+.index-main .multiple-download {
+    width: 25%;
+    bottom: 30px;
+}
+
+.index-main .select-all,
+.index-main .deselect-all {
+    width: 12%;
+    bottom: 100px;
+}
+
+.index-main .select-all {
+    right: 22%;
+}
+
+.index-main .multiple-download:hover,
+.index-main .select-all:hover,
+.index-main .deselect-all:hover {
     cursor: pointer;
 }

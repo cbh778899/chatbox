@@ -133,7 +133,7 @@ function formatPost(post, is_file = false) {
     `<form class='post-info'
         >${is_file ? `<input class='file-selection'
             type='checkbox' name='file-selection'
-            value='${post[0]}' onclick='selectFile(event)'>` : ''}用户${
+            value='${post[0]}'>` : ''}用户${
             post[2]}\n于${new Date(post[1]).toLocaleString()}发表：
         <span>${main_str}</span>
         ${post[4] === 'file' ? 
@@ -283,8 +283,11 @@ function viewUploads(type) {
 
         record_old = uploads;
         const view_page = document.getElementById('view-page');
-        if(uploads.length)
+        if(uploads.length) {
             view_page.innerHTML = uploads.map(e => formatPost(e, type === 'files')).join('');
+            if(type === 'files')
+                createMultipleDownloadBtns()
+        }
         else
             view_page.innerHTML = "<h1 class='no-upload'>当前没有任何记录，可以前往主页进行上传！</h1>";
     }
