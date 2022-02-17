@@ -173,19 +173,6 @@ function getSelectedFiles(event) {
 
 async function upload(type) {
     // 0 for text and 1 for file
-
-    function createCover() {
-        const cover = document.createElement('div');
-        cover.className = 'cover';
-        return cover;
-    }
-
-    function createLoadingPage(cover) {
-        const loading = document.createElement('div');
-        loading.className = 'loading';
-        loading.innerHTML = "<img src='static/pic/arrow-repeat.svg'><span>Loading</span>";
-        cover.appendChild(loading);
-    }
     
     function createForm(cover) {
         const form = document.createElement('form');

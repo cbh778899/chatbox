@@ -100,6 +100,19 @@ function showSomething(text) {
     }, 1000));
 }
 
+function createCover() {
+    const cover = document.createElement('div');
+    cover.className = 'cover';
+    return cover;
+}
+
+function createLoadingPage(cover) {
+    const loading = document.createElement('div');
+    loading.className = 'loading';
+    loading.innerHTML = "<img src='static/pic/arrow-repeat.svg'><span>Loading</span>";
+    cover.appendChild(loading);
+}
+
 const main = `
 <div class="upload-panel">
     <div class="select-btn select-btn-text" onclick="upload(0)">

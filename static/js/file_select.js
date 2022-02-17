@@ -20,6 +20,7 @@ function changeAllStatus(status) {
 
 function sendPostRequest(args) {
     const http_request = new XMLHttpRequest();
+    const cover = createCover();
     http_request.open('POST', '/file/multiple', true);
     http_request.onreadystatechange = () =>{
         if(http_request.readyState === 4 && http_request.status === 200) {
@@ -27,11 +28,13 @@ function sendPostRequest(args) {
             download_link.href = window.URL.createObjectURL(http_request.response)
             download_link.download = "ChatboxDownload.zip"
             download_link.click()
+            document.body.removeChild(cover)
         }
     };
     http_request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-    http_request.send(JSON.stringify(args));
     http_request.responseType = 'blob';
+    http_request.send(JSON.stringify(args));
+    createLoadingPage(cover);
 }
 
 function createMultipleDownloadBtns() {
