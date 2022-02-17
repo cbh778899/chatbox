@@ -90,7 +90,7 @@ class files:
         file_list_with_path = []
         for e in file_list:
             file_list_with_path.append(
-                "{}\\{}_{}".format(file_path, e[0], e[3])
+                ("{}\\{}_{}".format(file_path, e[0], e[3]), e[3])
             )
         return zip.packzip(self.__tmp_path, file_list_with_path)
 

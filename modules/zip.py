@@ -8,7 +8,6 @@ def packzip(location, files):
     if os.path.isfile(zip_file_name):
         os.remove(zip_file_name)
     f = zipfile.ZipFile(zip_file_name, 'w')
-    for fn in files:
-        parent, name = os.path.split(fn)
-        f.write(fn, name)
+    for e in files:
+        f.write(e[0], e[1])
     return zip_file_name
