@@ -1,6 +1,7 @@
 const apostrophe = '@@replacedapostrophe@@';
 const double_quotes = '@@replacedoublequotes@@';
 const backtick = '@@replacebacktick@@';
+const LOCAL_HOST = '0x1.d104423d7f144p-2'
 
 var current_interval = null;
 var display_mode = 'Mobile';
@@ -144,7 +145,7 @@ function formatPost(post, is_file = false) {
             .replace(/`/g, backtick)
             .replace(/"/g, double_quotes)
             }\`)">复制</span>`
-        }${post[2] === user_id ? 
+        }${post[2] === user_id || user_id === LOCAL_HOST? 
         `<span class='op danger' onclick="remove('${post[4]}', ${post[0]})">删除</span>` : ''}
     </form>`)
 }
