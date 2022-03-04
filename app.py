@@ -1,9 +1,6 @@
-from fileinput import filename
 import os
 from flask import *
 import random
-
-from numpy import true_divide
 from modules.dataBox import dataBox
 
 data_box = dataBox()
