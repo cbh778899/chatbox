@@ -9,8 +9,6 @@ var display_mode = 'Mobile';
 window.onload = async () => {
     if(screen.width > screen.height) {
         display_mode = 'Laptop'
-        document.getElementById('nv-bar').classList.add('nv-bar-laptop');
-        document.getElementById('index-main').classList.add('laptop-mode');
     }
     loadSettings();
     await loadByPath();

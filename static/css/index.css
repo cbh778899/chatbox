@@ -1,14 +1,9 @@
 .nv-bar {
     width: 100vw;
-    height: 100px;
     position: absolute;
     left: 0;
     top: 0;
     background-color: rgba(0, 0, 0, 0.5);
-}
-
-.nv-bar-laptop {
-    height: 50px;
 }
 
 .nv-bar:hover {
@@ -17,33 +12,17 @@
 }
 
 .nv-bar img {
-    width: 80px;
-    height: 80px;
     position: absolute;
     right: 1vw;
-    top: 10px;
     background-color: lightgray;
     border-radius: 5px;
-}
-
-.nv-bar-laptop img {
-    width: 40px;
-    height: 40px;
-    top: 5px;
 }
 
 .index-main {
     display: block;
     position: absolute;
-    top: 100px;
     left: 0;
-    height: calc(100vh - 100px);
     width: 100vw;
-}
-
-.laptop-mode {
-    height: calc(100vh - 50px);
-    top: 50px;
 }
 
 .index-main .upload-panel {
@@ -80,11 +59,6 @@
 
 .index-main .upload-panel .select-btn-text {
     background-color: rgb(30, 144, 255);
-    margin-top: calc( (100vh - 500px) / 2 );
-}
-
-.laptop-mode .upload-panel .select-btn-text {
-    margin-top: calc( (100vh - 450px) / 2 );
 }
 
 .index-main .upload-panel .select-btn-text:hover {
@@ -257,4 +231,38 @@
 .index-main .settings .update:hover {
     cursor: pointer;
     background-color: rgb(30, 144, 255);
+}
+
+/* when is mobile */
+@media screen and (max-width: 500px) {
+    .nv-bar { height: 100px; }
+    .nv-bar img {
+        width: 80px;
+        height: 80px;
+        top: 10px;    
+    }
+    .index-main {
+        height: calc(100vh - 100px);
+        top: 100px;
+    }
+    .index-main .upload-panel .select-btn-text {
+        margin-top: calc( (100vh - 500px) / 2 );
+    }
+}
+
+/* when is laptop */
+@media screen and (min-width: 500px) {
+    .nv-bar { height: 50px; }
+    .nv-bar img {
+        width: 40px;
+        height: 40px;
+        top: 5px;
+    }
+    .index-main {
+        height: calc(100vh - 50px);
+        top: 50px;
+    }
+    .index-main .upload-panel .select-btn-text {
+        margin-top: calc( (100vh - 450px) / 2 );
+    }
 }
